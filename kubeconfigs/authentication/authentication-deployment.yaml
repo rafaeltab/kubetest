@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: authentication
+spec:
+    selector:
+        matchLabels:
+            app: authentication
+    template:
+        metadata:
+            labels:
+                app: authentication
+        spec:
+            containers:
+                - name: authentication
+                  image: registry.me:5000/rafaeltab/kubetest/authentication-service
+                  imagePullPolicy: "Always"
+                  resources:
+                      limits:
+                          memory: "128Mi"
+                          cpu: "500m"
+                  ports:
+                      - containerPort: 45000

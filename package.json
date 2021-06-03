@@ -1,0 +1,20 @@
+{
+  "name": "kubetest",
+  "version": "1.0.0",
+  "description": "Just testing kubernetes with Typescript microservices n stuff",
+  "main": "index.js",
+  "scripts": {
+    "publishlocal": "cd APIGateway && npm run dockerpublishlocal && cd ../AuthenticationService && npm run dockerpublishlocal && cd ../DataService && npm run dockerpublishlocal"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafaeltab/kubetest.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rafaeltab/kubetest/issues"
+  },
+  "homepage": "https://github.com/rafaeltab/kubetest#readme"
+}

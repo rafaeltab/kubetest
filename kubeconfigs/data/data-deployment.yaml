@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: data
+spec:
+    selector:
+        matchLabels:
+            app: data
+    template:
+        metadata:
+            labels:
+                app: data
+        spec:
+            containers:
+                - name: data
+                  image: registry.me:5000/rafaeltab/kubetest/data-service
+                  imagePullPolicy: "Always"
+                  resources:
+                      limits:
+                          memory: "128Mi"
+                          cpu: "500m"
+                  ports:
+                      - containerPort: 45000
