@@ -43,3 +43,15 @@ spec:
                         valueFrom:
                             fieldRef:
                                 fieldPath: spec.serviceAccountName
+                      - name: TLSCRT
+                        value: "/certs/tls.crt"
+                      - name: TLSKEY
+                        value: "/certs/tls.key"
+                  volumeMounts:
+                      - name: certs-vol
+                        mountPath: "/certs"
+                        readOnly: true
+            volumes:
+                - name: certs-vol
+                  secret:
+                      secretName: certs-secret

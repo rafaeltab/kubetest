@@ -21,3 +21,36 @@ spec:
                           cpu: "500m"
                   ports:
                       - containerPort: 45000
+                  env:
+                      - name: MY_NODE_NAME
+                        valueFrom:
+                            fieldRef:
+                                fieldPath: spec.nodeName
+                      - name: MY_POD_NAME
+                        valueFrom:
+                            fieldRef:
+                                fieldPath: metadata.name
+                      - name: MY_POD_NAMESPACE
+                        valueFrom:
+                            fieldRef:
+                                fieldPath: metadata.namespace
+                      - name: MY_POD_IP
+                        valueFrom:
+                            fieldRef:
+                                fieldPath: status.podIP
+                      - name: MY_POD_SERVICE_ACCOUNT
+                        valueFrom:
+                            fieldRef:
+                                fieldPath: spec.serviceAccountName
+                      - name: TLSCRT
+                        value: "/certs/tls.crt"
+                      - name: TLSKEY
+                        value: "/certs/tls.key"
+                  volumeMounts:
+                      - name: certs-vol
+                        mountPath: "/certs"
+                        readOnly: true
+            volumes:
+                - name: certs-vol
+                  secret:
+                      secretName: certs-secret

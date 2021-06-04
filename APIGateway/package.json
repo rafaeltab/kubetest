@@ -1,19 +1,21 @@
 {
   "name": "api-gateway",
-  "version": "1.0.4",
+  "version": "1.0.19",
   "description": "",
   "main": "index.js",
   "scripts": {
     "build": "tsc --project ./ && echo building",
     "start-dev": "nodemon --watch \"src /**\" --ext \"ts,json\" --ignore \"src/**/*.spec.ts\" --exec \"ts-node src/index.ts\"",
     "start": "node ./build",
-    "dockerpublishlocal": "grunt bump && docker buildx build . --push -t registry.me:5000/rafaeltab/kubetest/apigateway:%npm_package_version% -t registry.me:5000/rafaeltab/kubetest/apigateway:latest"
+    "dockerpublishlocal": "grunt bump && docker buildx build . --push -t registry.me:5000/rafaeltab/kubetest/apigateway:%npm_package_version% -t registry.me:5000/rafaeltab/kubetest/apigateway:latest && kubectl delete pod -l app=apigateway"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "@types/node-fetch": "^2.5.10",
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "@types/express": "^4.17.12",
