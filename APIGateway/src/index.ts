@@ -6,7 +6,7 @@ import fs from "fs";
 const authenticationService = "https://authentication:45001/";
 const dataService = "https://data:45002/";
 
-var version = { version: "1.0.19" };
+var version = { version: "1.0.20" };
 
 const my_node_name = process.env.MY_NODE_NAME;
 const my_pod_name = process.env.MY_POD_NAME;
@@ -75,6 +75,30 @@ app.get("/data/", async (req, res) => {
     } catch (err) {
         res.status(500).json(err);
     }
+});
+
+app.get("/services/", async (req, res) => {
+    const agent = new https.Agent({
+        rejectUnauthorized: false,
+    });
+
+    var ret: any = {};
+
+    try {
+        var result = await fetch(dataService, { agent });
+        ret.data = await result.json();
+    } catch (err) {
+        ret.data = err;
+    }
+
+    try {
+        var result = await fetch(authenticationService, { agent });
+        ret.auth = await result.json();
+    } catch (err) {
+        ret.auth = err;
+    }
+
+    res.json(ret);
 });
 
 const PORT = parseInt(process.env.PORT ?? "45000");

@@ -6,7 +6,7 @@ import fs from "fs";
 const apigatewayService = "https://apigateway:45000/";
 const authService = "https://authentication:45001/";
 
-var version = { version: "1.0.6" };
+var version = { version: "1.0.7" };
 
 const my_node_name = process.env.MY_NODE_NAME;
 const my_pod_name = process.env.MY_POD_NAME;
@@ -75,6 +75,30 @@ app.get("/auth/", async (req, res) => {
     } catch (err) {
         res.status(500).json(err);
     }
+});
+
+app.get("/services/", async (req, res) => {
+    const agent = new https.Agent({
+        rejectUnauthorized: false,
+    });
+
+    var ret: any = {};
+
+    try {
+        var result = await fetch(authService, { agent });
+        ret.auth = await result.json();
+    } catch (err) {
+        ret.auth = err;
+    }
+
+    try {
+        var result = await fetch(apigatewayService, { agent });
+        ret.gate = await result.json();
+    } catch (err) {
+        ret.gate = err;
+    }
+
+    res.json(ret);
 });
 
 const PORT = parseInt(process.env.PORT ?? "45000");
