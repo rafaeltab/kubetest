@@ -1,0 +1,32 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+    name: authdb-pv-volume
+    labels:
+        type: local
+        app: authdb
+spec:
+    storageClassName: manual
+    capacity:
+        storage: 20Gi
+    accessModes:
+        - ReadWriteMany
+    hostPath:
+        path: "/D/registry/database"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+    name: authdb-pv-claim
+    labels:
+        app: authdb
+    annotations:
+        # volume.beta.kubernetes.io/storage-class: "storage-class-name"
+        volume.beta.kubernetes.io/mount-options: "dir_mode=0777,file_mode=0777,uid=1000,gid=1000"
+spec:
+    storageClassName: manual
+    accessModes:
+        - ReadWriteMany
+    resources:
+        requests:
+            storage: 5Gi

@@ -2,11 +2,12 @@ import express from "express";
 import fetch from "node-fetch";
 import https from "https";
 import fs from "fs";
+import { getPcUsage } from "./resources";
 
 const authenticationService = "https://authentication:45001/";
 const dataService = "https://data:45002/";
 
-var version = { version: "1.0.20" };
+var version = { version: "1.0.26" };
 
 const my_node_name = process.env.MY_NODE_NAME;
 const my_pod_name = process.env.MY_POD_NAME;
@@ -28,7 +29,7 @@ Service Account: \t\t${my_pod_service_account}
 
 const app = express();
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
     if (my_node_name !== undefined) {
         let result = {
             message: "Connection made",
@@ -44,6 +45,7 @@ app.get("/", (req, res) => {
                     service_account: my_pod_service_account,
                 },
             },
+            usage: await getPcUsage(),
         };
         res.json(result);
     } else {

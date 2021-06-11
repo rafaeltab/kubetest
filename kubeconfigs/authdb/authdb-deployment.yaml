@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: authdb
+spec:
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+    replicas: 1
+    selector:
+        matchLabels:
+            app: authdb
+    template:
+        metadata:
+            labels:
+                app: authdb
+        spec:
+            containers:
+                - name: authdb
+                  image: postgres
+                  imagePullPolicy: "IfNotPresent"
+                  ports:
+                      - containerPort: 5432
+                  envFrom:
+                      - configMapRef:
+                            name: authdb-config
+                  resources:
+                      limits:
+                          memory: "2Gi"
+                          cpu: "1"
+                  volumeMounts:
+                      - mountPath: /var/lib/postgresql/data
+                        name: postgredb
+            volumes:
+                - name: postgredb
+                  persistentVolumeClaim:
+                      claimName: authdb-pv-claim

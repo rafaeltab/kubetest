@@ -7,3 +7,4 @@ Just testing kubernetes with Typescript microservices n stuff
 -   kubernetes
 -   Typescript
 -   Sequelize
+-   github actions to automaticly build docker files and push em to registry
